@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- this xsl is used to convert elife version 1 xml to the new (version 2) format -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -79,7 +81,7 @@
             </xsl:for-each>
             <xsl:if test="./subj-group[@subj-group-type='heading']">
                 <xsl:element name="subj-group">
-                    <xsl:attribute name="subj-group-type">subject</xsl:attribute>
+                    <xsl:attribute name="subj-group-type">major-subject</xsl:attribute>
                     <xsl:for-each select="./subj-group[@subj-group-type='heading']/subject">
                         <xsl:copy-of select="."/>
                     </xsl:for-each>
