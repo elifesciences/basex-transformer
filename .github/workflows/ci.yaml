@@ -12,7 +12,7 @@ on:
 jobs:
   build-and-push:
       runs-on: ubuntu-18.04
-      # if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/master'
       steps:
         - uses: actions/checkout@v2
           with:
@@ -23,8 +23,9 @@ jobs:
         -
           run: |
             timestamp=$(date --utc +%Y%m%d.%H%M)
+            branch="${GITHUB_REF/refs\/heads\//}"
             docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
-            docker build --no-cache -t $GITHUB_REPOSITORY:latest -t $GITHUB_REPOSITORY:master-${GITHUB_SHA:0:8}-${timestamp} .
+            docker build --no-cache -t $GITHUB_REPOSITORY:latest -t $GITHUB_REPOSITORY:${branch}-${GITHUB_SHA:0:8}-${timestamp} .
             docker push --all-tags $GITHUB_REPOSITORY
           env:
             DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
