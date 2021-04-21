@@ -20,7 +20,7 @@ jobs:
         -
           run: |
             docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
-            docker build --no-cache -t $GITHUB_REPOSITORY:latest -t $GITHUB_REPOSITORY:${GITHUB_REF/refs\/heads\//}-${GITHUB_SHA:0:8}-${date --utc +%Y%m%d.%H%M} .
+            docker build --no-cache -t $GITHUB_REPOSITORY:latest .
             docker push --all-tags $GITHUB_REPOSITORY
           env:
             DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
