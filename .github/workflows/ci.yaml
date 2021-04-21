@@ -17,13 +17,19 @@ jobs:
         - uses: actions/checkout@v2
           with:
             submodules: true
+        - name: Get current date
+          id: date
+          run: echo "::set-output name=date::$(date --utc +%Y%m%d.%H%M)"
         -
           run: |
+            timestamp=$(date --utc +%Y%m%d.%H%M)
             docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
-            docker build --no-cache -t $GITHUB_REPOSITORY:latest .
+            docker build --no-cache -t $GITHUB_REPOSITORY:latest -t $GITHUB_REPOSITORY:${GITHUB_REF/refs\/heads\//}-${GITHUB_SHA:0:8}-${timestamp} .
             docker push --all-tags $GITHUB_REPOSITORY
           env:
             DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
             DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+            SHORT_SHA: ${GITHUB_SHA:0:8}
+            BRANCH: "${GITHUB_REF/refs\/heads\//}"
 
 
