@@ -23,8 +23,9 @@ jobs:
         -
           run: |
             timestamp=$(date --utc +%Y%m%d.%H%M)
+            branch="${GITHUB_REF/refs\/heads\//}"
             docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
-            docker build --no-cache -t $GITHUB_REPOSITORY:latest -t $GITHUB_REPOSITORY:${GITHUB_REF/refs\/heads\//}-${GITHUB_SHA:0:8}-${timestamp} .
+            docker build --no-cache -t $GITHUB_REPOSITORY:latest -t $GITHUB_REPOSITORY:${branch}-${GITHUB_SHA:0:8}-${timestamp} .
             docker push --all-tags $GITHUB_REPOSITORY
           env:
             DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
