@@ -17,8 +17,8 @@ jobs:
         - name: Create variables
           run: |
             echo "CURRENT_DATE_TIME=$(date --utc +%Y%m%d.%H%M)" >> $GITHUB_ENV
-            echo "SHORT_SHA=$(GITHUB_SHA:0:8)" >> $GITHUB_ENV
-            echo "SHORT_SHA=${GITHUB_REF/refs\/heads\//} >> $GITHUB_ENV
+            echo "BRANCH=$(GITHUB_REF/refs\/heads\//) >> $GITHUB_ENV
+            echo "SHORT_SHA=$(GITHUB_SHA::8) >> $GITHUB_ENV
         - uses: actions/checkout@v2
           with:
             submodules: true
