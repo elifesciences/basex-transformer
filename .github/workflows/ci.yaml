@@ -29,7 +29,5 @@ jobs:
           env:
             DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
             DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-            SHORT_SHA: ${GITHUB_SHA:0:8}
-            BRANCH: "${GITHUB_REF/refs\/heads\//}"
 
 
