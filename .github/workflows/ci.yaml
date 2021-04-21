@@ -12,7 +12,7 @@ on:
 jobs:
   build-and-push:
       runs-on: ubuntu-18.04
-      if: github.ref == 'refs/heads/master'
+      # if: github.ref == 'refs/heads/master'
       steps:
         - name: Create variables
           run: |
