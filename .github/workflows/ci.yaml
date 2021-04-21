@@ -18,20 +18,12 @@ jobs:
           with:
             submodules: true
         -
-          name: Login to DockerHub
-          uses: docker/login-action@v1 
-          with:
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
-            password: ${{ secrets.DOCKERHUB_TOKEN }}
-        -
-          name: Build and push
-          id: docker_build
-          uses: docker/build-push-action@v2
-          with:
-            push: true
-            tags: $GITHUB_REPOSITORY:latest,$GITHUB_REPOSITORY:${GITHUB_REF/refs\/heads\//}-${GITHUB_SHA::8}-${date --utc +%Y%m%d.%H%M}
-        -
-          name: Image digest
-          run: echo ${{ steps.docker_build.outputs.digest }}
+          run: |
+            docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
+            docker build --no-cache -t $GITHUB_REPOSITORY:latest -t $GITHUB_REPOSITORY:${GITHUB_REF/refs\/heads\//}-${GITHUB_SHA:0:8}-${date --utc +%Y%m%d.%H%M} .
+            docker push --all-tags $GITHUB_REPOSITORY
+          env:
+            DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+            DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
 
